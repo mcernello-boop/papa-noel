@@ -113,12 +113,14 @@ export class ScriptBrain {
   greeting(memory) {
     const p = this.getProfile();
     const out = [];
-    const first = !memory.sessions?.length;
+    // solo cuentan las llamadas ya terminadas (la actual todavía no tiene fin)
+    const done = (memory.sessions || []).filter((s) => s.end);
+    const first = !done.length;
     if (p.childName) out.push(this.say(first ? LINES.greet_first : LINES.greet_again));
     else out.push(this.say(LINES.greet_generic));
     if (p.news && p.newsDate === new Date().toDateString()) out.push(this.say(LINES.news, { noticia: p.news }));
     else if (!first) {
-      const last = memory.sessions[memory.sessions.length - 1];
+      const last = done[done.length - 1];
       const t = last?.topics || [];
       const opts = [];
       if (p.pets?.length) opts.push(() => this.say(LINES.mem_pet, { mascota: p.pets[Math.floor(Math.random() * p.pets.length)].name }));

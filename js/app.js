@@ -88,7 +88,8 @@ async function speakLines(lines) {
     if (!inCall) return;
     const text = lines[i];
     rig.state = "speaking";
-    let clip = await next;
+    // si la voz natural tarda demasiado, mejor la del teléfono que un silencio largo
+    let clip = await Promise.race([next, sleep(4500).then(() => null)]);
     next = lines[i + 1] && voice.mode !== "sistema" ? voice.getClip(lines[i + 1]).catch(() => null) : null;
     rig.speak(text, performance.now() / 1000);
     mem.addTurn(session, "noel", text);
@@ -163,7 +164,7 @@ async function conversation() {
     if (!inCall) return;
     if (!res.text && !res.heard) {
       if (!res.nomic) silences++;
-      if (silences >= 4) { await speakLines(brain.goodbyeTime()); return endCall(); }
+      if (silences >= 6) { await speakLines(brain.goodbyeTime()); return endCall(); }
       await speakLines(brain.silence(Math.max(1, silences)));
       continue;
     }
@@ -182,6 +183,7 @@ async function startCall() {
   show("calling");
   $("#calling-text").textContent = "Llamando…";
   inCall = true;
+  voice.pausePregen = true;
   pendingTyped = null; ears.broken = false; ears.fails = 0;
   session = mem.startSession();
   brain = new ScriptBrain(() => mem.profile());
@@ -229,6 +231,7 @@ function stopSelfView() {
 function endCall() {
   if (!inCall) return;
   inCall = false;
+  voice.pausePregen = false;
   voice.stop(); ears.cancel();
   typedResolve?.({ text: "", heard: false });
   clearInterval(timerInt);
@@ -519,7 +522,7 @@ async function boot() {
     if (!p.setupDone && !p.childName) { openPin(); return; }
     startCall().catch((e) => { console.error(e); endCall(); });
   });
-  $("#btn-cancel").addEventListener("click", () => { inCall = false; voice.stop(); session && mem.endSession(session, []); stopSelfView(); show("home"); });
+  $("#btn-cancel").addEventListener("click", () => { inCall = false; voice.pausePregen = false; voice.stop(); session && mem.endSession(session, []); stopSelfView(); show("home"); });
   $("#btn-hang").addEventListener("click", () => endCall());
   $("#btn-home").addEventListener("click", () => show("home"));
   $("#btn-parents").addEventListener("click", () => openPin());

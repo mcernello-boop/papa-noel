@@ -1,5 +1,5 @@
 // Guarda la app en el teléfono para que abra rápido y funcione aunque falle internet.
-const VERSION = "noel-app-v1";
+const VERSION = "noel-app-v2";
 const SHELL = [
   "./", "index.html", "css/app.css", "manifest.webmanifest",
   "js/app.js", "js/rig.js", "js/face.js", "js/voice.js", "js/ears.js", "js/brain.js", "js/lines.js", "js/memory.js", "js/g2p-es.js",
@@ -25,11 +25,14 @@ self.addEventListener("fetch", (e) => {
     e.respondWith(fetch(req).then((r) => { const c = r.clone(); caches.open(VERSION).then((ca) => ca.put("index.html", c)); return r; }).catch(() => caches.match("index.html")));
     return;
   }
-  // archivos propios, voces pregrabadas, fuentes y librerías: primero lo guardado
+  const put = (r) => { if (r.ok && (r.type === "basic" || r.type === "cors")) { const c = r.clone(); caches.open(VERSION).then((ca) => ca.put(req, c)); } return r; };
+  // código propio (js, css, json): primero la red para recibir arreglos; sin conexión, lo guardado
+  if (same && /\.(js|css|json|webmanifest)$/.test(url.pathname)) {
+    e.respondWith(fetch(req).then(put).catch(() => caches.match(req)));
+    return;
+  }
+  // voces pregrabadas, imágenes, fuentes y librerías con versión fija: primero lo guardado
   if (same || url.hostname === "cdn.jsdelivr.net" || url.hostname.endsWith("gstatic.com") || url.hostname === "fonts.googleapis.com") {
-    e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((r) => {
-      if (r.ok && (r.type === "basic" || r.type === "cors")) { const c = r.clone(); caches.open(VERSION).then((ca) => ca.put(req, c)); }
-      return r;
-    })));
+    e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then(put)));
   }
 });

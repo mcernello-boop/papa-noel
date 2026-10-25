@@ -248,6 +248,8 @@ export class Voice {
   async pregenerate(texts, onProgress) {
     let done = 0;
     for (const t of texts) {
+      // durante una llamada, la voz se usa para la charla: la preparación espera
+      while (this.pausePregen) await new Promise((r) => setTimeout(r, 500));
       if (!(await this.hasClip(t))) {
         try {
           const pcm = await this._generate(t);
