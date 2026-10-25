@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Llamada con Papá Noel</title>
+<meta name="theme-color" content="#0b1424">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Papá Noel">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="icon" href="img/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- Inicio: llamar a Papá Noel -->
+  <section id="home" class="screen active" aria-label="Inicio">
+    <img class="bg-blur" src="img/santa.jpg" alt="" aria-hidden="true">
+    <canvas id="snow" aria-hidden="true"></canvas>
+    <button id="btn-parents" class="icon-btn top-right" aria-label="Panel para mamá y papá">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm9.4 4.6-1.9-.4a7.7 7.7 0 0 0-.6-1.5l1.1-1.6a.8.8 0 0 0-.1-1l-1.5-1.5a.8.8 0 0 0-1-.1l-1.6 1.1a7.7 7.7 0 0 0-1.5-.6l-.4-1.9a.8.8 0 0 0-.8-.6h-2.2a.8.8 0 0 0-.8.6l-.4 1.9c-.5.1-1 .3-1.5.6L5.6 6.9a.8.8 0 0 0-1 .1L3.1 8.5a.8.8 0 0 0-.1 1l1.1 1.6c-.3.5-.5 1-.6 1.5l-1.9.4a.8.8 0 0 0-.6.8v2.2c0 .4.3.7.6.8l1.9.4c.1.5.3 1 .6 1.5l-1.1 1.6a.8.8 0 0 0 .1 1l1.5 1.5c.3.3.7.3 1 .1l1.6-1.1c.5.3 1 .5 1.5.6l.4 1.9c.1.4.4.6.8.6h2.2c.4 0 .7-.3.8-.6l.4-1.9c.5-.1 1-.3 1.5-.6l1.6 1.1c.3.2.7.2 1-.1l1.5-1.5c.3-.3.3-.7.1-1l-1.1-1.6c.3-.5.5-1 .6-1.5l1.9-.4c.4-.1.6-.4.6-.8v-2.2a.8.8 0 0 0-.6-.8Z"/></svg>
+    </button>
+    <div class="home-center">
+      <div class="avatar-wrap">
+        <span class="ring r1"></span><span class="ring r2"></span>
+        <div class="avatar"><img src="img/icon-512.png" alt="Papá Noel"></div>
+      </div>
+      <h1 class="home-name">Papá Noel</h1>
+      <p class="home-status"><span class="dot"></span><span id="home-status-text">Polo Norte · disponible</span></p>
+    </div>
+    <div class="home-bottom">
+      <p id="home-hint" class="hint">Tocá el botón verde para llamar</p>
+      <button id="btn-call" class="call-btn go" aria-label="Llamar a Papá Noel">
+        <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true"><path fill="currentColor" d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4Z"/></svg>
+      </button>
+      <span class="call-label">Videollamada</span>
+      <p id="voice-badge" class="voice-badge" hidden></p>
+    </div>
+  </section>
+
+  <!-- Llamando -->
+  <section id="calling" class="screen" aria-label="Llamando">
+    <img class="bg-blur strong" src="img/santa.jpg" alt="" aria-hidden="true">
+    <div class="home-center">
+      <div class="avatar-wrap calling">
+        <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+        <div class="avatar"><img src="img/icon-512.png" alt=""></div>
+      </div>
+      <h1 class="home-name">Papá Noel</h1>
+      <p id="calling-text" class="home-status">Llamando…</p>
+    </div>
+    <div class="home-bottom">
+      <button id="btn-cancel" class="call-btn hang" aria-label="Cortar">
+        <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true"><path fill="currentColor" d="M12 9c-1.6 0-3.2.3-4.6.8v3.1c0 .4-.2.7-.6.9-1 .5-1.9 1.1-2.6 1.8-.2.2-.4.3-.7.3s-.5-.1-.7-.3L.3 13.1A1 1 0 0 1 0 12.4c0-.3.1-.5.3-.7C3.3 8.8 7.4 7 12 7s8.7 1.8 11.7 4.7c.2.2.3.4.3.7s-.1.5-.3.7l-2.5 2.5c-.2.2-.4.3-.7.3s-.5-.1-.7-.3c-.8-.7-1.7-1.3-2.6-1.8a1 1 0 0 1-.6-.9V9.8C15.2 9.3 13.6 9 12 9Z"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- En llamada -->
+  <section id="call" class="screen" aria-label="Videollamada con Papá Noel">
+    <canvas id="face"></canvas>
+    <div class="call-top">
+      <div class="who">
+        <strong>Papá Noel</strong>
+        <span><span class="live"></span>Polo Norte · <span id="timer">00:00</span></span>
+      </div>
+    </div>
+    <video id="selfview" playsinline muted autoplay hidden></video>
+    <div id="listening" class="listening" hidden><i></i><i></i><i></i><i></i><span>Papá Noel te escucha</span></div>
+    <div class="call-bottom">
+      <button id="btn-helper" class="round-btn" aria-label="Ayuda para mamá o papá">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M20 5H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2ZM11 8h2v2h-2V8Zm0 3h2v2h-2v-2ZM8 8h2v2H8V8Zm0 3h2v2H8v-2ZM5 8h2v2H5V8Zm0 3h2v2H5v-2Zm11 5H8v-2h8v2Zm0-3h-2v-2h2v2Zm0-3h-2V8h2v2Zm3 3h-2v-2h2v2Zm0-3h-2V8h2v2Z"/></svg>
+      </button>
+      <button id="btn-hang" class="call-btn hang" aria-label="Cortar la llamada">
+        <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true"><path fill="currentColor" d="M12 9c-1.6 0-3.2.3-4.6.8v3.1c0 .4-.2.7-.6.9-1 .5-1.9 1.1-2.6 1.8-.2.2-.4.3-.7.3s-.5-.1-.7-.3L.3 13.1A1 1 0 0 1 0 12.4c0-.3.1-.5.3-.7C3.3 8.8 7.4 7 12 7s8.7 1.8 11.7 4.7c.2.2.3.4.3.7s-.1.5-.3.7l-2.5 2.5c-.2.2-.4.3-.7.3s-.5-.1-.7-.3c-.8-.7-1.7-1.3-2.6-1.8a1 1 0 0 1-.6-.9V9.8C15.2 9.3 13.6 9 12 9Z"/></svg>
+      </button>
+      <button id="btn-cam" class="round-btn" aria-label="Mostrar u ocultar tu cámara">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4Z"/></svg>
+      </button>
+    </div>
+    <div id="connecting" class="connecting"><img src="img/santa.jpg" alt=""><span>Conectando con el Polo Norte…</span></div>
+
+    <!-- Ayuda para los papás durante la llamada -->
+    <div id="helper" class="sheet" hidden>
+      <div class="sheet-head"><strong>Ayudá a Papá Noel</strong><button id="helper-close" class="text-btn">Cerrar</button></div>
+      <p class="small muted">Si Papá Noel no la entiende, tocá lo que dijo o escribilo.</p>
+      <p class="small"><span class="muted">Escuchó:</span> <span id="heard-text">—</span></p>
+      <div class="chips" id="chips"></div>
+      <form id="helper-form" class="row">
+        <input id="helper-input" type="text" autocomplete="off" placeholder="Lo que dijo la nena…" enterkeyhint="send">
+        <button class="btn primary" type="submit">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Fin de la llamada -->
+  <section id="ended" class="screen" aria-label="Llamada terminada">
+    <img class="bg-blur strong" src="img/santa.jpg" alt="" aria-hidden="true">
+    <canvas id="snow2" aria-hidden="true"></canvas>
+    <div class="home-center">
+      <div class="avatar small"><img src="img/icon-512.png" alt=""></div>
+      <h2 class="end-title">¡Chau, chau!</h2>
+      <p class="end-text">Papá Noel se fue a darle de comer a los renos.</p>
+      <p id="end-duration" class="home-status"></p>
+    </div>
+    <div class="home-bottom">
+      <button id="btn-home" class="btn light">Volver al inicio</button>
+    </div>
+  </section>
+
+  <!-- PIN de los papás -->
+  <section id="pin" class="screen panel-screen" aria-label="PIN de mamá y papá">
+    <div class="pin-box">
+      <h2 id="pin-title">Solo para mamá y papá</h2>
+      <p id="pin-sub" class="muted">Ingresá el PIN</p>
+      <div class="pin-dots" id="pin-dots"><i></i><i></i><i></i><i></i></div>
+      <div class="pin-pad" id="pin-pad"></div>
+      <button id="pin-back" class="text-btn">Volver</button>
+    </div>
+  </section>
+
+  <!-- Panel de los papás -->
+  <section id="panel" class="screen panel-screen" aria-label="Panel de mamá y papá">
+    <header class="panel-head">
+      <h2>Panel de mamá y papá</h2>
+      <button id="panel-close" class="btn light small">Listo</button>
+    </header>
+    <div class="panel-body">
+
+      <div class="card" id="card-setup">
+        <h3>Primeros pasos</h3>
+        <ol class="steps">
+          <li>Completá los datos de la nena y tocá <b>Guardar</b>.</li>
+          <li>Esperá a que se prepare la voz de Papá Noel con su nombre (usá wifi, son unos 90&nbsp;MB una sola vez).</li>
+          <li>Agregá la app a la pantalla de inicio desde el menú del navegador para abrirla como una app.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>La nena</h3>
+        <label>Nombre<input id="f-name" type="text" autocomplete="off" placeholder="Olivia"></label>
+        <label>Edad<input id="f-age" type="number" min="1" max="12" inputmode="numeric"></label>
+        <label>Mascotas <span class="muted">(nombre y animal, una por línea: Toto, perro)</span><textarea id="f-pets" rows="2"></textarea></label>
+        <label>Familia <span class="muted">(una por línea: abuela, Marta)</span><textarea id="f-family" rows="3"></textarea></label>
+        <label>Cosas que le gustan <span class="muted">(separadas por coma)</span><input id="f-likes" type="text" placeholder="los dinosaurios, la plaza"></label>
+        <label>Regalos que ustedes aprueban <span class="muted">(separados por coma; Papá Noel nunca promete otros)</span><input id="f-gifts" type="text" placeholder="una muñeca, una pelota"></label>
+        <button id="save-profile" class="btn primary">Guardar</button>
+        <p id="save-msg" class="small muted" aria-live="polite"></p>
+      </div>
+
+      <div class="card">
+        <h3>Novedad de hoy</h3>
+        <p class="small muted">Papá Noel la dice al empezar: “Me contaron los duendes que…”. Vale solo por hoy.</p>
+        <label><input id="f-news" type="text" placeholder="fuiste muy valiente en el médico"></label>
+        <button id="save-news" class="btn">Guardar novedad</button>
+      </div>
+
+      <div class="card">
+        <h3>Voz de Papá Noel</h3>
+        <p id="voice-status" class="small">—</p>
+        <div class="progress" hidden id="voice-progress"><i></i></div>
+        <label>Voz
+          <select id="f-voice">
+            <option value="auto">Natural de Papá Noel (recomendada)</option>
+            <option value="sistema">Voz del teléfono</option>
+          </select>
+        </label>
+        <div class="row">
+          <button id="btn-prepare" class="btn">Preparar frases con su nombre</button>
+          <button id="btn-test-voice" class="btn">Probar voz</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Llamadas</h3>
+        <label>Duración máxima
+          <select id="f-minutes">
+            <option value="3">3 minutos</option><option value="5">5 minutos</option><option value="10">10 minutos</option><option value="0">Sin límite</option>
+          </select>
+        </label>
+        <label class="check"><input id="f-selfview" type="checkbox"> Mostrar la camarita de la nena en la llamada</label>
+        <label>Cómo piensa Papá Noel
+          <select id="f-brain">
+            <option value="guion">Guion para chiquitos (recomendado)</option>
+            <option value="ia">IA en el teléfono (beta, descarga de ~700 MB)</option>
+          </select>
+        </label>
+        <p id="brain-status" class="small muted"></p>
+      </div>
+
+      <div class="card">
+        <h3>Lo que contó</h3>
+        <div id="facts" class="small"></div>
+        <h4>Pedidos de regalos</h4>
+        <div id="requests" class="small"></div>
+        <h4>Últimas llamadas</h4>
+        <div id="history" class="small"></div>
+      </div>
+
+      <div class="card">
+        <h3>PIN y datos</h3>
+        <div class="row wrap">
+          <button id="btn-change-pin" class="btn">Cambiar PIN</button>
+          <button id="btn-clear-history" class="btn">Borrar charlas</button>
+          <button id="btn-reset" class="btn danger">Borrar todo</button>
+        </div>
+        <p id="confirm-msg" class="small" aria-live="polite"></p>
+        <p class="small muted">Todo se guarda solo en este teléfono. Las palabras de la nena las transcribe el reconocimiento de voz del navegador.</p>
+      </div>
+    </div>
+  </section>
+</div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
